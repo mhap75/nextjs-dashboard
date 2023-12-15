@@ -9,14 +9,12 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createInvoice } from '@/app/lib/actions';
+import { State, createInvoice } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
-  const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState<State>(createInvoice, initialState);
-
-  console.log(state);
+  const initialState: State = { errors: {} };
+  const [state, dispatch] = useFormState(createInvoice, initialState);
 
   return (
     <form action={dispatch}>
@@ -75,7 +73,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
             </div>
           </div>
           <div id="amount-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.amount &&
+            {state?.errors?.amount &&
               state.errors.amount.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
